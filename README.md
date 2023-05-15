@@ -1,8 +1,8 @@
 # Solo Project
 
 ## Database Schema Design
+![Alt Text](images/image.png)
 
-`<insert database schema design here>`
 
 ## API Documentation
 
