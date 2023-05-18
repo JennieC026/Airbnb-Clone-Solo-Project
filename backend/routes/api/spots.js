@@ -36,8 +36,8 @@ const router = express.Router();
         return res.json(ownedSpots)
     }
     
-    return res.status(404).json({
-        message:"Login to get the owned spots"
+    return res.status(401).json({
+        message:"Authentication required"
     })
 
 
@@ -84,6 +84,10 @@ router.post('/',validateSpot,async(req,res)=>{
         price
     })
     return res.json(newSpot)
+}else{
+    return res.status(401).json({
+        message:"Authentication required"
+    })
 }
 })
 
@@ -106,13 +110,17 @@ router.post('/:spotId/images',async(req,res)=>{
                 preview
             });
             return res.json(newImage);
+        }else{
+            return res.status(403).json({
+                message:"Forbidden"
+            })
         }
 
         
 
     }
-    return res.status(404).json({
-        message:"Login to post image for spots"
+    return res.status(401).json({
+        message:"Authentication required"
     })
     
 })
@@ -138,8 +146,8 @@ router.put('/:spotId',async(req,res)=>{
             await spotToUpdate.save();
             return res.json(spotToUpdate);
         }else{
-            return res.status(404).json({
-                message:"Can't update other's owned spot"})
+            return res.status(403).json({
+                message:"Forbidden"})
         }
 
         }else{
@@ -147,6 +155,9 @@ router.put('/:spotId',async(req,res)=>{
                 message:"Spot couldn't be found"})
         }
 
+    }else{
+        return res.status(401).json({
+            message:"Authentication required"})
     }
 });
 
@@ -161,14 +172,16 @@ router.delete('/:spotId',async(req,res)=>{
                     message:"Successfully deleted"
                 })
             }else{
-                return res.status(404).json({
-                    message:"Can't delete other's owned spot"})
+                return res.status(403).json({
+                    message:"Forbidden"})
             }
         }else{
             return res.status(404).json({
                 message:"Spot couldn't be found"})
         }
     }
+    return res.status(401).json({
+        message:"Authentication required"})
 })
     
 
