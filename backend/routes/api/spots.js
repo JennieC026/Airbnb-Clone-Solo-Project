@@ -3,7 +3,7 @@ const express = require('express')
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { Spot ,SpotImage, User} = require('../../db/models');
+const { Spot ,SpotImage, User, ReviewImage, Review} = require('../../db/models');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { check } = require('express-validator');
@@ -24,7 +24,29 @@ const router = express.Router();
 
  ]
 
- 
+ router.get('/:spotId/reviews',async(req,res)=>{
+    const reviews = await Review.findAll({
+        where:{
+            spotId:req.params.spotId
+        },
+        include:[
+            {
+                model:User,
+                as:'User',
+                attributes:['id','firstName','lastName']
+            },
+            {
+                model:ReviewImage,
+                as:'ReviewImages',
+                attributes:['id','url']
+            }
+
+        ]
+    });
+    return res.json(reviews)
+
+
+ })
 
  router.get('/current',async(req,res)=>{
     const {user} = req;
