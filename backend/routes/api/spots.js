@@ -27,7 +27,6 @@ const router = express.Router();
  
 
  router.get('/current',async(req,res)=>{
-    console.log('current hit')
     const {user} = req;
     if(user){
         const id = user.id;
