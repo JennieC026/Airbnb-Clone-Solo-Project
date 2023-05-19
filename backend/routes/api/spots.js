@@ -23,6 +23,9 @@ const router = express.Router();
     handleValidationErrors
 
  ]
+
+ 
+
  router.get('/current',async(req,res)=>{
     console.log('current hit')
     const {user} = req;
