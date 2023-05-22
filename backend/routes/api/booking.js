@@ -23,7 +23,7 @@ const validateEditBooking = [
 router.get('/current',async(req,res)=>{
     const{user} = req;
     if(user){
-        const bookings = await Booking.findOne({
+        const bookings = await Booking.findAll({
             where:{
                 userId:user.id
             },
