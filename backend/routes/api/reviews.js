@@ -137,7 +137,27 @@ router.delete('/:reviewId',async(req,res)=>{
         const reviewToDelete = await Review.findByPk(parseInt(req.params.reviewId));
         if(reviewToDelete){
             if(reviewToDelete.userId===user.id){
+                const spotId = reviewToDelete.spotId
                 await reviewToDelete.destroy();
+                const totalStars =await Review.sum('stars',{
+                    where:{
+                        spotId:spotId
+                    }
+                })
+                const updatedSpot = await Spot.findByPk(parseInt(spotId),{
+                    include:[
+                        {
+                            model:Review,
+                            as:'Reviews'
+                        }
+                    ]
+                });
+                
+                let notRoundedStarRating = totalStars/updatedSpot.Reviews.length;
+                updatedSpot.avgStarRating = Number(notRoundedStarRating).toFixed(1);
+                updatedSpot.numReviews = updatedSpot.Reviews.length;
+                
+                await updatedSpot.save();
                 return res.json({
                     message:"Successfully deleted"
                 })
