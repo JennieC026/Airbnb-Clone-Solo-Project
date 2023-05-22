@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       validate:{
         isAfterStartDate(value){
-          if(this.startDate > value){
+          if(this.startDate.getTime() > value.getTime()){
             throw new Error("endDate cannot be on or before startDate")
           }
         }
