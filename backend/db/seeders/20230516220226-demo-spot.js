@@ -20,7 +20,7 @@ module.exports = {
         name:"App Academy",
         description:"Place where web developers are created",
         price:123,
-        NumReviews:1,
+        numReviews:1,
         avgStarRating:5.0
       },
       {
@@ -34,7 +34,7 @@ module.exports = {
         name:"Good Good Restaurant",
         description:"The best restaurant in the world",
         price:50,
-        NumReviews:1,
+        numReviews:1,
         avgStarRating:5.0
       },
       {
@@ -48,7 +48,7 @@ module.exports = {
         name:"Mystery Shack",
         description:"A mystery place to spend all your money",
         price:999,
-        NumReviews:1,
+        numReviews:1,
         avgStarRating:1.0
       },
      
