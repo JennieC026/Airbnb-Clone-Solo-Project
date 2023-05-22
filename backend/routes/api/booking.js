@@ -149,6 +149,10 @@ router.delete('/:bookingId',async(req,res)=>{
                 message:"Forbidden"
             })
         }
+        const now = new Date();
+        if(bookingToDelete.startDate<now){
+            return res.status(403).json({ message: "Bookings that have been started can't be deleted" })
+        }
         await bookingToDelete.destroy();
         return res.json({
             message: "Successfully deleted"
