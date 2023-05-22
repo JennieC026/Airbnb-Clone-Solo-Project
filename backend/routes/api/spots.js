@@ -44,8 +44,9 @@ const validateQuery = [
     check('maxLat').optional().isDecimal().withMessage('Maximum latitude is invalid'),
     check('minLng').optional().isDecimal().withMessage('Minimum longitude is invalid'),
     check('maxLng').optional().isDecimal().withMessage('Maximum longitude is invalid'),
-    check('minPrice').optional().isDecimal({min:0}).withMessage('Minimum price must be greater than or equal to 0'),
-    check('maxPrice').optional().isDecimal({min:0}).withMessage('Maximum price must be greater than or equal to 0'),
+    check('minPrice').optional().isInt({min:0}).withMessage('Minimum price must be greater than or equal to 0'),
+    check('maxPrice').optional().isInt({min:0}).withMessage('Maximum price must be greater than or equal to 0'),
+    handleValidationErrors
 ]
 //get review by spot
  router.get('/:spotId/reviews',async(req,res)=>{
@@ -304,7 +305,7 @@ router.get('/:spotId',async(req,res)=>{
 })
 
 //get all spots
-router.get('/',async(req,res)=>{
+router.get('/',validateQuery,async(req,res)=>{
     const { page = 1, size = 20, minPrice, maxPrice, minLat, maxLat, minLng, maxLng } = req.query;
     const numPage = page ? parseInt(page) : undefined;
     const numSize = size ? parseInt(size) : undefined;
