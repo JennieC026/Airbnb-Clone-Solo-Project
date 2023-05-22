@@ -335,7 +335,7 @@ router.post('/:spotId/images',async(req,res)=>{
 })
 
 //update spot information
-router.put('/:spotId',async(req,res)=>{
+router.put('/:spotId',validateSpot,async(req,res)=>{
     const {user} = req;
     if(user){
         const spotToUpdate = await Spot.findByPk(parseInt(req.params.spotId),{
