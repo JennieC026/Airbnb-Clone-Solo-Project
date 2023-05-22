@@ -143,7 +143,14 @@ router.put('/:bookingId',validateEditBooking,async(req,res)=>{
 router.delete('/:bookingId',async(req,res)=>{
     const{user} = req;
     if(user){
-        const bookingToDelete = await Booking.findByPk(parseInt(req.params.bookingId))
+        const bookingToDelete = await Booking.findByPk(parseInt(req.params.bookingId));
+        if(!bookingToDelete){
+            return res.status(404).json(
+                {
+                    message: "Booking couldn't be found"
+                  }
+            )
+        }
         if(bookingToDelete.userId!==user.id){
             return res.status(403).json({
                 message:"Forbidden"
