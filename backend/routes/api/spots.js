@@ -204,12 +204,20 @@ const validateBooking = [
                 spotId:req.params.spotId
             }
         })
-        let notRoundedStarRating = totalStars/spot.Reviews.length;
-        spot.avgStarRating = Number(notRoundedStarRating).toFixed(1);
-        spot.numReviews = spot.Reviews.length;
+        const updatedSpot = await Spot.findByPk(parseInt(req.params.spotId),{
+            include:[
+                {
+                    model:Review,
+                    as:'Reviews'
+                }
+            ]
+        });
         
-        await spot.save();
-        console.log(spot.avgStarRating)
+        let notRoundedStarRating = totalStars/updatedSpot.Reviews.length;
+        updatedSpot.avgStarRating = Number(notRoundedStarRating).toFixed(1);
+        updatedSpot.numReviews = updatedSpot.Reviews.length;
+        
+        await updatedSpot.save();
         return res.json(newReview);
 
 

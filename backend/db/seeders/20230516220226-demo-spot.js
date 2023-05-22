@@ -19,7 +19,9 @@ module.exports = {
         lng:-122.4730327,
         name:"App Academy",
         description:"Place where web developers are created",
-        price:123
+        price:123,
+        NumReviews:1,
+        avgStarRating:5.0
       },
       {
         ownerId:1,
@@ -31,7 +33,9 @@ module.exports = {
         lng:-118.164625,
         name:"Good Good Restaurant",
         description:"The best restaurant in the world",
-        price:50
+        price:50,
+        NumReviews:1,
+        avgStarRating:5.0
       },
       {
         ownerId:2,
@@ -43,7 +47,9 @@ module.exports = {
         lng:-122.024539,
         name:"Mystery Shack",
         description:"A mystery place to spend all your money",
-        price:999
+        price:999,
+        NumReviews:1,
+        avgStarRating:1.0
       },
      
     ])
