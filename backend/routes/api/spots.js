@@ -92,7 +92,13 @@ const validateQuery = [
  router.post('/:spotId/bookings',validateBooking,async(req,res)=>{
     const {user} = req;
     if(user){
-        const spot = Spot.findByPk(parseInt(req.params.spotId));
+        const spot =await Spot.findByPk(parseInt(req.params.spotId));
+        
+        if(!spot){
+            return res.status(404).json({
+                message:"Spot couldn't be found"
+            })
+        }
         if(spot){
         let {startDate,endDate} = req.body;
         startDate = new Date(startDate);

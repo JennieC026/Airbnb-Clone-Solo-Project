@@ -55,7 +55,6 @@ router.put('/:bookingId',validateEditBooking,async(req,res)=>{
         let {startDate,endDate} = req.body;
         startDate = new Date(startDate);
         endDate = new Date(endDate);
-        console.log('STARTDATE'+startDate)
         const conflictBooking = await Booking.findOne({
             where:{
                 [Op.or]:[
