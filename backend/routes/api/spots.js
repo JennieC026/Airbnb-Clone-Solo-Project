@@ -258,6 +258,11 @@ router.get('/:spotId',async(req,res)=>{
     }]
         
     });
+    if(!spot){
+        return res.status(404).json({
+            message:"Spot couldn't be found"
+        })
+    }
     return res.json(spot);
 })
 
