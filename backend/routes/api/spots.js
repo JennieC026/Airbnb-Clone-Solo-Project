@@ -94,11 +94,7 @@ const validateQuery = [
     if(user){
         const spot =await Spot.findByPk(parseInt(req.params.spotId));
         
-        if(!spot){
-            return res.status(404).json({
-                message:"Spot couldn't be found"
-            })
-        }
+       
         if(spot){
         let {startDate,endDate} = req.body;
         startDate = new Date(startDate);

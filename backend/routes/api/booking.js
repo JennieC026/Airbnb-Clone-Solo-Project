@@ -55,6 +55,7 @@ router.put('/:bookingId',validateEditBooking,async(req,res)=>{
         let {startDate,endDate} = req.body;
         startDate = new Date(startDate);
         endDate = new Date(endDate);
+        
         const conflictBooking = await Booking.findOne({
             where:{
                 [Op.or]:[
@@ -111,7 +112,7 @@ router.put('/:bookingId',validateEditBooking,async(req,res)=>{
         })
        
         
-        if(conflictBooking){
+        if(conflictBooking&&conflictBooking.userId!==user.id){
             return res.status(403).json(
                 {
                     message: "Sorry, this spot is already booked for the specified dates",
@@ -124,8 +125,8 @@ router.put('/:bookingId',validateEditBooking,async(req,res)=>{
         }
        
         
-        if(startDate) {startDate = new Date(startDate);bookingToUpdate.set(startDate)}
-        if(endDate) {endDate = new Date(endDate);bookingToUpdate.set(endDate)}
+        if(startDate) {startDate = new Date(startDate);bookingToUpdate.set({startDate})}
+        if(endDate) {endDate = new Date(endDate);bookingToUpdate.set({endDate})}
         await bookingToUpdate.save();
         return res.json(bookingToUpdate);
 
@@ -147,6 +148,10 @@ router.delete('/:bookingId',async(req,res)=>{
             return res.status(403).json({
                 message:"Forbidden"
             })
+        }
+        const now = new Date();
+        if(bookingToDelete.startDate<now){
+            return res.status(403).json({ message: "Bookings that have been started can't be deleted" })
         }
         await bookingToDelete.destroy();
         return res.json({
