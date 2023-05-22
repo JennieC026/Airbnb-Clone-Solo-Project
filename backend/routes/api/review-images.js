@@ -8,12 +8,12 @@ const { check } = require('express-validator');
 
 const router = express.Router();
 
-router.delete('/:reviewId',async(req,res)=>{
+router.delete('/:imageId',async(req,res)=>{
     const {user} = req;
     if(user){
         const reviewImage =await ReviewImage.findOne({
             where:{
-                id:req.params.reviewId
+                id:req.params.imageId
             },
             include:{
                 model:Review,
