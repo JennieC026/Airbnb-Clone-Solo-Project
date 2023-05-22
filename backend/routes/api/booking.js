@@ -93,7 +93,19 @@ router.put('/:bookingId',validateEditBooking,async(req,res)=>{
                             }
                         }
                     ]
-                }
+                },
+                {
+                    [Op.and]:[
+                        {startDate:{
+                            [Op.lte]:startDate
+                        }},
+                        {
+                            endDate:{
+                                [Op.gte]:endDate
+                            }
+                        }
+                    ]
+                },
                 ]
                 
             }
