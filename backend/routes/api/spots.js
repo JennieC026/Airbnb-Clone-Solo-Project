@@ -37,7 +37,16 @@ const validateBooking = [
         }
     })
 ]
-
+const validateQuery = [
+    check('page').optional().isInt({min:1,max:20}).withMessage('Page must be greater than or equal to 1 and less than or equal to 10'),
+    check('size').optional().isInt({min:1,max:20}).withMessage('Size must be greater than or equal to 1 and less than or equal to 20'),
+    check('minLat').optional().isDecimal().withMessage('Minimum latitude is invalid'),
+    check('maxLat').optional().isDecimal().withMessage('Maximum latitude is invalid'),
+    check('minLng').optional().isDecimal().withMessage('Minimum longitude is invalid'),
+    check('maxLng').optional().isDecimal().withMessage('Maximum longitude is invalid'),
+    check('minPrice').optional().isDecimal({min:0}).withMessage('Minimum price must be greater than or equal to 0'),
+    check('maxPrice').optional().isDecimal({min:0}).withMessage('Maximum price must be greater than or equal to 0'),
+]
 //get review by spot
  router.get('/:spotId/reviews',async(req,res)=>{
     const reviews = await Review.findAll({
@@ -125,7 +134,19 @@ const validateBooking = [
                             }
                         }
                     ]
-                }
+                },
+                {
+                    [Op.and]:[
+                        {startDate:{
+                            [Op.lte]:startDate
+                        }},
+                        {
+                            endDate:{
+                                [Op.gte]:endDate
+                            }
+                        }
+                    ]
+                },
                 ]
                 
             }
@@ -282,8 +303,51 @@ router.get('/:spotId',async(req,res)=>{
 
 //get all spots
 router.get('/',async(req,res)=>{
-    const spots =await Spot.findAll();
-   return res.json(spots)
+    const { page = 1, size = 20, minPrice, maxPrice, minLat, maxLat, minLng, maxLng } = req.query;
+    const numPage = page ? parseInt(page) : undefined;
+    const numSize = size ? parseInt(size) : undefined;
+    const whereItems = {};
+
+    if(minLat||maxLat){
+        whereItems.lat = {};
+        if(minLat){
+            whereItems.lat[Op.gte] = minLat
+        };
+        if(maxLat){
+            whereItems.lat[Op.lte] = maxLat
+        }
+    };
+
+    if(minLng||maxLng){
+        whereItems.lng = {};
+        if(minLng){
+            whereItems.lng[Op.gte] = minLng
+        };
+        if(maxLng){
+            whereItems.lng[Op.lte] = maxLng
+        }
+    };
+
+    if(minPrice||maxPrice){
+        whereItems.price = {};
+        if(minPrice){
+            whereItems.price[Op.gte] = minPrice
+        };
+        if(maxPrice){
+            whereItems.price[Op.lte] = maxPrice
+        }
+    }
+    
+    const spots =await Spot.findAll({
+        where:whereItems,
+        limit:numSize,
+        offset:(numPage-1)*numSize
+    });
+   return res.json({Spots:spots,
+                    page:numPage,
+                    size:numSize
+
+})
 
 });
 
