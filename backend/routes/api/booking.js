@@ -33,7 +33,7 @@ router.get('/current',async(req,res)=>{
                 }
             ],
         })
-        return res.json(bookings);
+        return res.json({Bookings:bookings});
 
     }else{
         return res.status(401).json({
@@ -46,7 +46,14 @@ router.get('/current',async(req,res)=>{
 router.put('/:bookingId',validateEditBooking,async(req,res)=>{
     const{user} = req;
     if(user){
-        const bookingToUpdate = await Booking.findByPk(parseInt(req.params.bookingId))
+        const bookingToUpdate = await Booking.findByPk(parseInt(req.params.bookingId));
+        if(!bookingToUpdate){
+            return res.status(404).json(
+                {
+                    message: "Booking couldn't be found"
+                  }
+            )
+        }
         if(bookingToUpdate.userId!==user.id){
             return res.status(403).json({
                 message:"Forbidden"

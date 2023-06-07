@@ -68,7 +68,7 @@ const validateQuery = [
 
         ]
     });
-    return res.json(reviews)
+    return res.json({Reviews:reviews})
 
 
  })
@@ -85,7 +85,7 @@ const validateQuery = [
             spotId:req.params.spotId
         },
     });
-    return res.json(bookings)
+    return res.json({Bookings:bookings})
  })
 
 
@@ -393,12 +393,17 @@ router.post('/:spotId/images',async(req,res)=>{
                 })
             }
         if(ownedSpots.ownerId===id){
-            const {url,preview} = req.body
+            const {url,preview} = req.body;
+           
             const newImage = await SpotImage.create({
                 spotId:req.params.spotId,
                 url,
                 preview
             });
+            if(preview===true){
+                ownedSpots.set({previewImage:url});
+                await ownedSpots.save();
+            }
             return res.json(newImage);
         }else{
             return res.status(403).json({
