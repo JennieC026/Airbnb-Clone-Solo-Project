@@ -30,9 +30,17 @@ router.get('/current',async(req,res)=>{
         const reviews = await Review.findAll({
             where:{
                 userId:id
-            }
+            },
+            include:[
+                {
+                    model:Spot
+                },
+                {
+                    model:ReviewImage
+                }
+            ]
         });
-        return res.json(reviews)
+        return res.json({Reviews:reviews})
 
     }else{
         return res.status(401).json({
