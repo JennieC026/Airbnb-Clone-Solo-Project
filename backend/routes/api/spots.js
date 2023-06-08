@@ -343,10 +343,26 @@ router.get('/',validateQuery,async(req,res)=>{
     
     const spots =await Spot.findAll({
         where:whereItems,
+        include: [
+            {
+                model: SpotImage,
+                where: {
+                    preview: true
+                }
+            }
+        ],
         limit:numSize,
-        offset:(numPage-1)*numSize
+        offset:(numPage-1)*numSize,
     });
-   return res.json({Spots:spots,
+
+    let result = spots.map(spot =>{
+        let spotJson = spot.toJSON();
+        spotJson.previewImage = spotJson.SpotImages?.[0].url;
+        delete spotJson.SpotImages;
+        return spotJson;
+    })
+
+   return res.json({Spots:result,
                     page:numPage,
                     size:numSize
 
