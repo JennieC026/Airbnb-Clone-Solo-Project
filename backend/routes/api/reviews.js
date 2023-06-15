@@ -33,10 +33,17 @@ router.get('/current',async(req,res)=>{
             },
             include:[
                 {
-                    model:Spot
+                    model:User,
+                    attributes:['id','firstName','lastName']
+
                 },
                 {
-                    model:ReviewImage
+                    model:Spot,
+                    attributes:['id','ownerId','address','city','state','country','lat','lng','name','price','previewImage']
+                },
+                {
+                    model:ReviewImage,
+                    attributes:['id','url']
                 }
             ]
         });

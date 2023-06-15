@@ -50,6 +50,13 @@ const validateQuery = [
 ]
 //get review by spot
  router.get('/:spotId/reviews',async(req,res)=>{
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+    if(!spot){
+        return res.status(404).json({
+            message:"Spot couldn't be found"
+        })
+    }
     const reviews = await Review.findAll({
         where:{
             spotId:req.params.spotId
