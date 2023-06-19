@@ -81,16 +81,37 @@ const validateQuery = [
  })
  //get bookings by spot
  router.get('/:spotId/bookings',async(req,res)=>{
+    const {user} = req;
+    if(!user){
+        return res.status(401).json({
+            message:"Authentication required"
+        })
+    
+    }
+    
     const spot = await Spot.findByPk(req.params.spotId);
     if(!spot){
         return res.status(404).json({
             message:"Spot couldn't be found"
         })
     }
+    if(spot.ownerId === user.id){
+        const bookings =await Booking.findAll({
+            where:{
+                spotId:req.params.spotId
+            },
+            include:[{
+                model:User,
+                attributes:['id','firstName','lastName']
+            }]
+        });
+        return res.json({Bookings:bookings})
+    }
     const bookings =await Booking.findAll({
         where:{
             spotId:req.params.spotId
         },
+        attributes:['spotId','startDate','endDate']
     });
     return res.json({Bookings:bookings})
  })
