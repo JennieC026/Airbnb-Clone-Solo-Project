@@ -289,12 +289,15 @@ const validateQuery = [
                     required:false
                 }
             ],
-            attributes:["id", "ownerId", "address", "city", "state", "country", "lat", "lng", "name", "description", "price", "createdAt", "updatedAt", "previewImage", [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']],
-            group: ['Spot.id']
+            attributes:["id", "ownerId", "address", "city", "state", "country", "lat", "lng", "name", "description", "price", "createdAt", "updatedAt", "previewImage"],
+            
         });
         let result = ownedSpots.map(spot =>{
             let spotJson = spot.toJSON();
             spotJson.previewImage = spotJson.SpotImages && spotJson.SpotImages.length > 0 ? spotJson.SpotImages[0].url : null;
+            spotJson.avgRating = spotJson.Reviews.length > 0 ? 
+        (spotJson.Reviews.reduce((total, review) => total + review.stars, 0) / spotJson.Reviews.length) : 
+        null;
             delete spotJson.Reviews;
             delete spotJson.SpotImages;
             return spotJson;
