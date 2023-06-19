@@ -317,8 +317,8 @@ const validateQuery = [
             let spotJson = spot.toJSON();
             spotJson.previewImage = spotJson.SpotImages && spotJson.SpotImages.length > 0 ? spotJson.SpotImages[0].url : null;
             spotJson.avgRating = spotJson.Reviews.length > 0 ? 
-        (spotJson.Reviews.reduce((total, review) => total + review.stars, 0) / spotJson.Reviews.length) : 
-        null;
+            (spotJson.Reviews.reduce((total, review) => total + review.stars, 0) / spotJson.Reviews.length).toFixed(2) : 
+            null;
             delete spotJson.Reviews;
             delete spotJson.SpotImages;
             return spotJson;
@@ -420,8 +420,8 @@ router.get('/',validateQuery,async(req,res)=>{
         let spotJson = spot.toJSON();
         spotJson.previewImage = spotJson.SpotImages && spotJson.SpotImages.length > 0 ? spotJson.SpotImages[0].url : null;
         spotJson.avgRating = spotJson.Reviews.length > 0 ? 
-        (spotJson.Reviews.reduce((total, review) => total + review.stars, 0) / spotJson.Reviews.length) : 
-        null;
+        (spotJson.Reviews.reduce((total, review) => total + review.stars, 0) / spotJson.Reviews.length).toFixed(2) : 
+    null;
         delete spotJson.Reviews;
         delete spotJson.SpotImages;
         return spotJson;
