@@ -29,11 +29,31 @@ router.get('/current',async(req,res)=>{
             },
             include:[
                 {
-                    model:Spot
+                    model:Spot,
+                    include:[
+                        {
+                            model:SpotImage,
+                            where:{
+                                preview:true
+                            },
+                            required:false
+                        }
+                    ],
+                    attributes:["id", "ownerId", "address", "city", "state", "country", "lat", "lng", "name",  "price"]
                 }
             ],
         })
-        return res.json({Bookings:bookings});
+        let result = bookings.map(booking => {
+            let bookingJson = booking.toJSON();
+            if (bookingJson.Spot && bookingJson.Spot.SpotImages && bookingJson.Spot.SpotImages.length > 0) {
+                bookingJson.Spot.previewImage = bookingJson.Spot.SpotImages[0].url;
+            } else {
+                bookingJson.Spot.previewImage = null;
+            }
+            delete bookingJson.Spot.SpotImages;
+            return bookingJson;
+        });
+        return res.json({Bookings:result});
 
     }else{
         return res.status(401).json({
