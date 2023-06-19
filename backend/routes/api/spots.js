@@ -2,7 +2,7 @@ const express = require('express')
 
 const { Op } = require('sequelize');
 
-const { Spot ,SpotImage, User, ReviewImage, Review, Booking} = require('../../db/models');
+const { sequelize, Spot ,SpotImage, User, ReviewImage, Review, Booking} = require('../../db/models');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { check } = require('express-validator');
@@ -275,9 +275,31 @@ const validateQuery = [
         const ownedSpots = await Spot.findAll({
             where:{
                 ownerId:id
-            }
+            },
+            include: [
+                {
+                    model: SpotImage,
+                    required:false,
+                    where: {
+                        preview: true
+                    }
+                },
+                {
+                    model:Review,
+                    required:false
+                }
+            ],
+            attributes:["id", "ownerId", "address", "city", "state", "country", "lat", "lng", "name", "description", "price", "createdAt", "updatedAt", "previewImage", [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating']],
+            group: ['Spot.id']
         });
-        return res.json(ownedSpots)
+        let result = ownedSpots.map(spot =>{
+            let spotJson = spot.toJSON();
+            spotJson.previewImage = spotJson.SpotImages && spotJson.SpotImages.length > 0 ? spotJson.SpotImages[0].url : null;
+            delete spotJson.Reviews;
+            delete spotJson.SpotImages;
+            return spotJson;
+        })
+        return res.json({Spots:result})
     }
     
     return res.status(401).json({
@@ -353,18 +375,30 @@ router.get('/',validateQuery,async(req,res)=>{
         include: [
             {
                 model: SpotImage,
+                required:false,
                 where: {
                     preview: true
                 }
+            },
+            {
+                model:Review,
+                required:false
             }
         ],
+        attributes:["id", "ownerId", "address", "city", "state", "country", "lat", "lng", "name", "description", "price", "createdAt", "updatedAt", "previewImage"],
+        group: ['Spot.id'],
         limit:numSize,
         offset:(numPage-1)*numSize,
     });
-
+    
+    
     let result = spots.map(spot =>{
         let spotJson = spot.toJSON();
-        spotJson.previewImage = spotJson.SpotImages?.[0].url;
+        spotJson.previewImage = spotJson.SpotImages && spotJson.SpotImages.length > 0 ? spotJson.SpotImages[0].url : null;
+        spotJson.avgRating = spotJson.Reviews.length > 0 ? 
+        (spotJson.Reviews.reduce((total, review) => total + review.stars, 0) / spotJson.Reviews.length) : 
+        null;
+        delete spotJson.Reviews;
         delete spotJson.SpotImages;
         return spotJson;
     })
