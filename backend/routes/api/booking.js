@@ -78,10 +78,23 @@ router.put('/:bookingId',validateEditBooking,async(req,res)=>{
             return res.status(403).json({
                 message:"Forbidden"
             })
+        };
+        const currentDate = new Date();
+        if(bookingToUpdate.endDate<currentDate){
+            return res.status(403).json(
+                
+                    {
+                        "message": "Past bookings can't be modified"
+                      }
+                
+            )
+
         }
         let {startDate,endDate} = req.body;
         startDate = new Date(startDate);
         endDate = new Date(endDate);
+        
+       
         
         const conflictBooking = await Booking.findOne({
             where:{
