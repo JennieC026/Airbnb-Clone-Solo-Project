@@ -5,10 +5,17 @@ import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import * as sessionActions from "../../store/session";
+import { useDispatch } from "react-redux";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
+  const dispatch = useDispatch();
+  const loginDemoUser = () =>{
+    return dispatch(sessionActions.login({ credential:'Demo-lition', password:'password' }))
+    
+  }
 
   let sessionLinks;
   if (sessionUser) {
@@ -28,12 +35,13 @@ function Navigation({ isLoaded }) {
           buttonText="Sign Up"
           modalComponent={<SignupFormModal />}
         />
+        <button onClick={loginDemoUser}>Demo User Login</button>
       </li>
     );
   }
 
   return (
-    <ul>
+    <ul id="Navigation">
       <li>
         <NavLink exact to="/">
           Home
