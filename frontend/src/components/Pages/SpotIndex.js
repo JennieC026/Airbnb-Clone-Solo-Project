@@ -7,7 +7,7 @@ import './SpotIndex.css'
 function SpotIndex(){
     const dispatch = useDispatch();
     const spots = useSelector(state=>state.spots.allSpots);
-    console.log('spot',spots)
+    
 
     useEffect(()=>{
         dispatch(fetchSpots())

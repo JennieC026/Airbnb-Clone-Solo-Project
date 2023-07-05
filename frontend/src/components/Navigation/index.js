@@ -2,52 +2,29 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
-import OpenModalButton from "../OpenModalButton";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
-import * as sessionActions from "../../store/session";
+
 import { useDispatch } from "react-redux";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
-  const loginDemoUser = () =>{
-    return dispatch(sessionActions.login({ credential:'Demo-lition', password:'password' }))
-    
-  }
+ 
 
-  let sessionLinks;
-  if (sessionUser) {
-    sessionLinks = (
+
+
+  let  sessionLinks = (
       <li>
         <ProfileButton user={sessionUser} />
       </li>
     );
-  } else {
-    sessionLinks = (
-      <li>
-        <OpenModalButton
-          buttonText="Log In"
-          modalComponent={<LoginFormModal />}
-          className='cursor-button'
-        />
-        <OpenModalButton
-        className='cursor-button'
-          buttonText="Sign Up"
-          modalComponent={<SignupFormModal />}
-          
-        />
-        <button onClick={loginDemoUser} className='cursor-button'>Demo User Login</button>
-      </li>
-    );
-  }
+ 
 
   return (
     <ul id="Navigation">
       <li>
         <NavLink exact to="/">
-          Home
+          <img src='https://cdn.discordapp.com/attachments/811082976501825539/1126181657754480780/logo_copy.jpg' alt="Home" id="home-image"/>
         </NavLink>
       </li>
       {isLoaded && sessionLinks}

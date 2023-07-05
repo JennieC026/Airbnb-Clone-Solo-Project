@@ -11,3 +11,8 @@
 .cursor-button {
   cursor:pointer;
 }
+
+#home-image{
+  width:5%;
+  height:auto;
+}
