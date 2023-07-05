@@ -30,12 +30,15 @@ function Navigation({ isLoaded }) {
         <OpenModalButton
           buttonText="Log In"
           modalComponent={<LoginFormModal />}
+          className='cursor-button'
         />
         <OpenModalButton
+        className='cursor-button'
           buttonText="Sign Up"
           modalComponent={<SignupFormModal />}
+          
         />
-        <button onClick={loginDemoUser}>Demo User Login</button>
+        <button onClick={loginDemoUser} className='cursor-button'>Demo User Login</button>
       </li>
     );
   }

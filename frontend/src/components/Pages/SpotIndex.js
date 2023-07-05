@@ -16,12 +16,12 @@ function SpotIndex(){
     return(
         <div>
             <h1>Spots</h1>
-            <ol>
+            <ol className='getAllSpots'>
                 {spots.map((spot)=>(
                     <li key={spot.id}>
                         <NavLink to={`/spots/${spot.id}`}>
                             <div>
-                                <img src={spot.previewImage} alt='previewImage'/>
+                                <img src={spot.previewImage} alt={spot.name}/>
                                   <h3>{`${spot.city},${spot.state}`}</h3><div><i className="fa-solid fa-star"></i><p>{spot.avgRating}</p></div>
                                   <p>{`$${spot.price}`}</p>
                                   </div>

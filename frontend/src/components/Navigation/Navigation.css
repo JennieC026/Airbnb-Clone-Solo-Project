@@ -7,3 +7,7 @@
   justify-content: space-between;
   list-style-type:none;
 }
+
+.cursor-button {
+  cursor:pointer;
+}
