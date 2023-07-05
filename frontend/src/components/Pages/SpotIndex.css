@@ -4,3 +4,7 @@
     gap:20px;
     padding: 0;
 }
+
+.all-spots-image {
+    max-width:100%
+}

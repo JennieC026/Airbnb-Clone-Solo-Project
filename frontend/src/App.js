@@ -4,6 +4,7 @@ import { Switch,Route } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotIndex from "./components/Pages/SpotIndex";
+import SpotShow from "./components/Pages/SpotShow";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,8 +17,14 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded? <Switch>
-        <Route exact to = '/'>
+        <Route exact path = '/'>
           <SpotIndex />
+        </Route>
+        <Route exact path = '/spots'>
+          <SpotIndex />
+        </Route>
+        <Route exact path = '/spots/:spotId'>
+          <SpotShow />
         </Route>
       </Switch>:<h2>Loading..</h2>}
     </>

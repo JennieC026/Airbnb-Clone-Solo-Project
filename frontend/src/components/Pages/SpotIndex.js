@@ -21,7 +21,7 @@ function SpotIndex(){
                     <li key={spot.id}>
                         <NavLink to={`/spots/${spot.id}`}>
                             <div>
-                                <img src={spot.previewImage} alt={spot.name}/>
+                                <img src={spot.previewImage?spot.previewImage:'https://cdn.discordapp.com/attachments/811082976501825539/1126211321252286515/Untitled-1_copy.jpg'} alt={spot.name} className='all-spots-image'/>
                                   <h3>{`${spot.city},${spot.state}`}</h3><div><i className="fa-solid fa-star"></i><p>{spot.avgRating}</p></div>
                                   <p>{`$${spot.price}`}</p>
                                   </div>
