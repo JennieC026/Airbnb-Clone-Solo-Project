@@ -1,0 +1,10 @@
+.getAllSpots {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    padding: 0;
+}
+
+.all-spots-image {
+    max-width:100%
+}

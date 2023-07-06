@@ -1,3 +1,18 @@
 .hidden {
     display: none;
   }
+
+#Navigation {
+  display:flex;
+  justify-content: space-between;
+  list-style-type:none;
+}
+
+.cursor-button {
+  cursor:pointer;
+}
+
+#home-image{
+  width:5%;
+  height:auto;
+}
