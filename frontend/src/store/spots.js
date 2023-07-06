@@ -10,7 +10,7 @@ export const loadSpots = (spots) =>{
 }
 export const loadSpot = (spot) =>{
     return {
-        type:LOAD_SPOTS,
+        type:LOAD_SPOT,
         spot
     }
 }
@@ -23,8 +23,12 @@ export const fetchSpots = () => async (dispatch) =>{
 }
 
 export const fetchSpot = (id) => async (dispatch) =>{
+    console.log('id',id)
+
     const res = await csrfFetch(`/api/spots/${id}`);
+    
     const data = await res.json();
+
     dispatch(loadSpot(data));
     return res;
 
@@ -36,10 +40,11 @@ const initialState = {
 }
 
 const spotReducer = (state = initialState,action)=>{
+
     switch(action.type){
         case LOAD_SPOTS:
             return {...state,allSpots:[...action.spots]}
-            case LOAD_SPOT:
+        case LOAD_SPOT:
                 return {...state,singleSpot:{...action.spot}}
         default:
             return state;
