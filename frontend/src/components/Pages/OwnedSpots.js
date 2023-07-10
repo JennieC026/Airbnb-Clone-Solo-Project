@@ -1,25 +1,33 @@
 import {useEffect}from'react';
 import{useDispatch,useSelector}from'react-redux'
-import { fetchSpots } from '../../store/spots';
-import { NavLink } from 'react-router-dom/cjs/react-router-dom';
-import './SpotIndex.css'
+import { fetchDeleteSpot, fetchOwnedSpots } from '../../store/spots';
+import { NavLink,useHistory } from 'react-router-dom/cjs/react-router-dom';
+import DeleteSpotModal from '../DeleteSpotModal';
+import OpenModalButton from "../OpenModalButton";
 
-function SpotIndex(){
+function OwnedSpots(){
     const dispatch = useDispatch();
+    const history = useHistory();
     const spots = useSelector(state=>state.spots.allSpots);
     
 
     useEffect(()=>{
-        dispatch(fetchSpots())
+        dispatch(fetchOwnedSpots())
     },[dispatch]);
 
-if(spots.length===0){
-    return(<div><h2>Loading...</h2></div>)
-}
+    const handleUpdateClick = (spotId) =>{
+        history.push(`/spots/${spotId}/edit`)
+    }
 
-    return(
-        <div>
-            <h1>Spots</h1>
+   
+
+    if(spots.length===0){
+        return(<div><h2>Loading...</h2></div>)
+    }
+    return(<div>
+     <div>
+            <h1>Manage Your Spots</h1>
+            <button>Create New Spot</button>
             <ol className='getAllSpots'>
                 {spots.map((spot)=>(
                     <li key={spot.id}>
@@ -30,12 +38,17 @@ if(spots.length===0){
                                   <p>{`$${spot.price}`}</p>
                                   </div>
                                   </NavLink>
+                                  <button onClick={()=>handleUpdateClick(spot.id)}>Update</button> <OpenModalButton
+        className='cursor-button'
+          buttonText="Delete"
+          modalComponent={<DeleteSpotModal spotId={spot.id}/>}
+          
+        />
                                   </li>
                ) )}
             </ol>
         </div>
-    )
-
+    </div>)
 }
 
-export default SpotIndex;
+export default OwnedSpots;

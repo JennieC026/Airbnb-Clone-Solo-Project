@@ -18,7 +18,13 @@ const router = express.Router();
     check('lng').isDecimal({min:-180,max:180}).withMessage("Longitude is not valid"),
     check('name').exists({checkFalsy:true}).isLength({max:50}).withMessage("Name must be less than 50 characters"),
     check('description').exists({checkFalsy:true}).withMessage("Description is required"),
-    check('price').exists({checkFalsy:true}).withMessage("Price per day is required"),
+    check('price').exists({checkFalsy:true}).withMessage("Price per day is required").custom((value)=>{
+        if(value>=0){
+            return true;
+        }else{
+            throw new Error('Price per day must be greater than 0')
+        }
+    }),
     handleValidationErrors
 
  ]

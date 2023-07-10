@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
 
 function ProfileButton({ user }) {
@@ -49,6 +50,10 @@ function ProfileButton({ user }) {
       <li>{user.username}</li>
       <li>{user.firstName} {user.lastName}</li>
       <li>{user.email}</li>
+      <hr/>
+      <li><NavLink to='/spots/current'>Manage Spots</NavLink></li>
+      <hr/>
+      <li><NavLink to='/reviews/current'>Manage Reviews</NavLink></li>
       <li>
         <button onClick={logout}>Log Out</button>
       </li>

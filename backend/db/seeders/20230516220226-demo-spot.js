@@ -17,7 +17,7 @@ module.exports = {
         country:"United States of America",
         lat:37.7645358,
         lng:-122.4730327,
-        name:"App Academy",
+        name:"Golden Gate Bridge",
         description:"Place where web developers are created",
         price:123,
         numReviews:1,
@@ -40,13 +40,13 @@ module.exports = {
       {
         ownerId:2,
         address:'122 Some Blvd',
-        city:"Gravity Fall",
-        state:"Oregon",
+        city:"Seattle",
+        state:"Washington",
         country:"United States of America",
         lat:44.999509,
         lng:-122.024539,
-        name:"Mystery Shack",
-        description:"A mystery place to spend all your money",
+        name:"Sea view House",
+        description:"luxurious home with spectacular ocean views",
         price:999,
         numReviews:1,
         avgStarRating:1.0
@@ -59,7 +59,7 @@ module.exports = {
     options.tableName = 'Spots';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options,{
-      name:{[Op.in]:['App Academy','Good Good Restaurant','Mystery Shack']},
+      name:{[Op.in]:['Golden Gate Bridge','Good Good Restaurant','Sea view House']},
       
     },{})
   }
