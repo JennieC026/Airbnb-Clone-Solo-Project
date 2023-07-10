@@ -13,7 +13,7 @@ function SpotShow(){
     const {spotId} = useParams();
     const spot = useSelector(state=>state.spots.singleSpot?state.spots.singleSpot:null);
     const reviews = useSelector(state=>state.reviews.spot?state.reviews.spot:[]);
-    const currentUserID = useSelector(state => state.session.user.id);
+    const currentUserID = useSelector(state => state.session.user?.id);
     
    
     
