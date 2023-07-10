@@ -17,14 +17,7 @@ form input, form textarea{
 
 }
 
-form button {
-    width: fit-content;
-    padding: 10px 20px;
-    background-color: red;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-}
+
 
 .image-url-input{
     display: flex;
