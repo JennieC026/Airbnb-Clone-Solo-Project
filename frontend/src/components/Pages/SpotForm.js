@@ -55,6 +55,10 @@ function SpotForm({spot,formType}){
             errors.description = 'Description is required';
         }
         
+        if (description.length <= 30) {
+            errors.description = 'Description needs 30 or more characters';
+        }
+        
         if (price.length === 0||price<=0) {
             errors.price = 'Price per day is required';
         }
@@ -63,23 +67,94 @@ function SpotForm({spot,formType}){
         setErrors(errors);
     },[country, address, city, state, lat, lng, name, description, price])
 
+    const descriptionValidator = ()=>{
+        let errors = {};
+        if (description.length <= 30) {
+            errors.description = 'Description needs 30 or more characters';
+        }
+
+        if (country.length===0) {
+            errors.country = 'Country is required';
+        }
+
+        if (address.length === 0) {
+            errors.address = 'Street address is required';
+        }
+        
+        if (city.length === 0) {
+            errors.city = 'City is required';
+        }
+        
+        if (state.length === 0) {
+            errors.state = 'State is required';
+        }
+
+        if (Math.abs(lat) > 90) {
+            errors.lat = 'Latitude is not valid';
+        }
+        
+        if (Math.abs(lng) > 180) {
+            errors.lng = 'Longitude is not valid';
+        }
+
+        if (name.length === 0 || name.length > 50) {
+            errors.name = 'Name must be less than 50 characters';
+        }
+        
+        if (description.length === 0) {
+            errors.description = 'Description is required';
+        }
+        
+        
+        if (price.length === 0||price<=0) {
+            errors.price = 'Price per day is required';
+        }
+
+        return errors;
+
+    }
+
      const handleSubmit = async(e) =>{
         e.preventDefault();
+        let newErrors = descriptionValidator();
+        setErrors(newErrors)
+
+        if(Object.keys(newErrors).length > 0){
+            return;
+        }
         setErrors({});
+        
         let newSpot;
         spot = {...spot,country,address,city,state,lat,lng,description,price,name};
         if(formType==='Create Spot'){
-             newSpot = await dispatch(fetchCreateSpot(spot,images,previewImage));
+            try{
+                newSpot = await dispatch(fetchCreateSpot(spot,images,previewImage));
+                history.push(`/spots/${newSpot.id}`)
+
+            } catch(error){
+               
+                const errorObj =await error.json();
+                const detailedErrors = errorObj.errors;
+                setErrors({apiError:detailedErrors})
+            }
             
         }else if (formType==='Update Spot'){
-            newSpot = await dispatch(fetchEditSpot(spot))
+            try{
+                newSpot = await dispatch(fetchEditSpot(spot))
+                history.push(`/spots/${newSpot.id}`)
+            }catch(error){
+                const errorObj =await error.json();
+                const detailedErrors = errorObj.errors;
+                console.log(detailedErrors)
+                setErrors({apiError:detailedErrors})
+
+            }
+            
         }
 
-        if(spot.errors){
-            setErrors(spot.errors)
-        }else{
-            history.push(`/spots/${newSpot.id}`)
-        }
+        
+           
+        
             
         
 
@@ -94,6 +169,8 @@ function SpotForm({spot,formType}){
      let imageBar;
      if(formType==="Create Spot"){
         imageBar = (<div>
+            <h2>Liven up your spot with photos</h2>
+            <p>Submit a link to at least one photo to publish your spot.</p>
 
             <div><input type='text' placeholder='Preview Image URL'value ={previewImage} onChange ={e =>setPreviewImage(e.target.value) }/></div>
 
@@ -115,7 +192,8 @@ function SpotForm({spot,formType}){
 
     return (
         <>
-        <h1>{formType==='Update Spot'?'Update a spot':'Create a new spot'}</h1>
+        <h1>{formType==='Update Spot'?'Update a spot':'Create a new spot'}</h1>   
+         
         <h2>Where's your place located?</h2>
         <p>Guest will only get your exact address once they booked a reservation.</p>
         <form onSubmit={handleSubmit}>
@@ -156,8 +234,8 @@ function SpotForm({spot,formType}){
             <label>
                 <h2>Describe Your Place to Guests</h2>
                 <p>Mention the best features of your space, any special amentities like
-fast wif or parking, and what you love about the neighborhood.</p>
-                <textarea type='text' value={description} onChange={e=>setDescription(e.target.value)} />
+fast wifi or parking, and what you love about the neighborhood.</p>
+                <textarea type='text' value={description} onChange={e=>setDescription(e.target.value)} placeholder="Please write at least 30 characters"/>
                 {errors.description && <div className="errors">{errors.description}</div>}
             </label>
 
@@ -167,7 +245,7 @@ fast wif or parking, and what you love about the neighborhood.</p>
             <h2>Create a title for your spot</h2>
                 <p>Catch guests' attention with a spot title that highlights what makes
 your place special.</p>
-                <input type='text' value={name} onChange={e=>setName(e.target.value)} />
+                <input type='text' value={name} onChange={e=>setName(e.target.value)} placeholder="Name of your spot" />
                 {errors.name && <div className="errors">{errors.name}</div>}
             </label>
 
@@ -178,17 +256,18 @@ your place special.</p>
                 <p>Competitive pricing can help your listing stand out and rank higher
 in search results.</p>
              <i className="fa-regular fa-dollar-sign"></i>
-                <input type='text' value={price} onChange={e=>setPrice(Number(e.target.value))} />
+                <input type='text' value={price} onChange={e=>setPrice(Number(e.target.value))} placeholder="Price per night (USD)"/>
                 {errors.price && <div className="errors">{errors.price}</div>}
             </label>
 
             <hr />
+            
             {imageBar}
             
 
             
 
-             <button type="submit" disabled={!!Object.keys(errors).length} >{formType==='Update Spot'?'Update a spot':'Create a new spot'}</button>
+             <button type="submit" disabled={!!Object.keys(errors).length} >{formType==='Update Spot'?'Update a spot':'Create Spot'}</button>
             
 
 

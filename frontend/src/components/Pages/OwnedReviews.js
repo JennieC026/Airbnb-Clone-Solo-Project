@@ -10,14 +10,18 @@ import UpdateReviewModal from '../UpdateReview';
 function OwnedReviews(){
     const dispatch = useDispatch();
     const history = useHistory();
-    const reviews = useSelector(state=>state.reviews.user||[]);
+    const reviews = useSelector(state=>state.reviews.user||null);
 
     useEffect(()=>{
         dispatch(fetchUserReviews())
     },[dispatch]);
 
-    if(reviews.length===0){
+    if(reviews===null){
         return(<div><h2>Loading...</h2></div>)
+    }
+
+    if(reviews.length===0){
+        return(<div><h2>No Reviews</h2></div>)
     }
 
     return(<div>

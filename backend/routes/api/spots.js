@@ -516,18 +516,9 @@ router.put('/:spotId',validateSpot,async(req,res)=>{
         });
         if(spotToUpdate){
             if(spotToUpdate.ownerId===user.id){
-            const {address,city,state,country,lat,lng,name,description,price} = req.body;
-           if(address) spotToUpdate.set({address});
-           if(city) spotToUpdate.set({city});
-           if(state) spotToUpdate.set({state});
-           if(country) spotToUpdate.set({country});
-           if(lat) spotToUpdate.set({lat});
-           if(lng) spotToUpdate.set({lng});
-           if(name) spotToUpdate.set({name});
-           if(description) spotToUpdate.set({description});
-           if(price) spotToUpdate.set({price});
-            await spotToUpdate.save();
-            return res.json(spotToUpdate);
+                const {address,city,state,country,lat,lng,name,description,price} = req.body;
+                const updatedSpot = await spotToUpdate.update({address,city,state,country,lat,lng,name,description,price}, {fields: Object.keys(req.body)});
+                return res.json(updatedSpot);
         }else{
             return res.status(403).json({
                 message:"Forbidden"})

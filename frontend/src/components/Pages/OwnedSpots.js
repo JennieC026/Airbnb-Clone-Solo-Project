@@ -8,7 +8,7 @@ import OpenModalButton from "../OpenModalButton";
 function OwnedSpots(){
     const dispatch = useDispatch();
     const history = useHistory();
-    const spots = useSelector(state=>state.spots.allSpots);
+    const spots = useSelector(state=>state.spots.allSpots||null);
     
 
     useEffect(()=>{
@@ -19,11 +19,15 @@ function OwnedSpots(){
         history.push(`/spots/${spotId}/edit`)
     }
 
-   
-
-    if(spots.length===0){
+    if(spots===null){
         return(<div><h2>Loading...</h2></div>)
     }
+
+    if(spots.length===0){
+        return(<div><h2><NavLink to='/spots/new'>Create New Spot</NavLink></h2></div>)
+    }
+
+    
     return(<div>
      <div>
             <h1>Manage Your Spots</h1>
