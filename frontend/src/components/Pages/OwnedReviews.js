@@ -5,6 +5,7 @@ import { fetchUserReviews } from '../../store/review';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 import OpenModalButton from "../OpenModalButton";
 import DeleteReviewModal from '../DeleteReviewModal';
+import UpdateReviewModal from '../UpdateReview';
 
 function OwnedReviews(){
     const dispatch = useDispatch();
@@ -32,6 +33,10 @@ function OwnedReviews(){
                     className='cursor-button'
                       buttonText="Delete"
                       modalComponent={<DeleteReviewModal reviewId={review.id}/>}/>
+                      <OpenModalButton
+                    className='cursor-button'
+                      buttonText="Update"
+                      modalComponent={<UpdateReviewModal originReview={review}/>}/>
                     </div>
                 </li>
             ))}

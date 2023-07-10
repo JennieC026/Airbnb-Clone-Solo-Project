@@ -6,6 +6,7 @@ import { fetchSpotReviews } from '../../store/review';
 import OpenModalButton from "../OpenModalButton";
 import CreateReviewModal from '../CreateReviewModal';
 import DeleteReviewModal from '../DeleteReviewModal';
+import UpdateReviewModal from '../UpdateReview';
 
 function SpotShow(){
     const dispatch = useDispatch();
@@ -49,17 +50,21 @@ function SpotShow(){
          <OpenModalButton
         className='cursor-button'
           buttonText="Post Your Review"
-          modalComponent={<CreateReviewModal spotId={spot.id}/>}/>
+          modalComponent={<CreateReviewModal spotId={spot.id} formType={'Create Review'}/>}/>
 
         <h2>Reviews</h2>
         <ol>
             {reviews.length > 0 && [...reviews].reverse().map((review)=>(
                 <li key={review?.id}><h3>{review.User?.firstName}</h3><p>{review.updatedAt}</p><p>{review.review}</p>
-                {review?.User.id === currentUserID && (
-                    <OpenModalButton
+                {review?.User.id === currentUserID && (<div><OpenModalButton
                     className='cursor-button'
                       buttonText="Delete"
-                      modalComponent={<DeleteReviewModal reviewId={review.id}/>}/>)}</li>
+                      modalComponent={<DeleteReviewModal reviewId={review.id}/>}/>
+                      <OpenModalButton
+                    className='cursor-button'
+                      buttonText="Update"
+                      modalComponent={<UpdateReviewModal originReview={review}/>}/></div>
+                    )}</li>
             ))}
         </ol></div>)
         reserveBar=(<div><i className="fa-solid fa-star"></i>{spot.avgStarRating} {spot.numReviews}reviews

@@ -2,6 +2,7 @@ import{csrfFetch}from './csrf';
 const LOAD_SPOT_REVIEWS = 'review/loadSpotReviews';
 const LOAD_USER_REVIEWS = 'review/loadUserReviews';
 const CREATE_REVIEW = 'review/createReview';
+const UPDATE_REVIEW = 'review/updateReview'
 const REMOVE_REVIEW = 'review/removeReview';
 
 
@@ -22,6 +23,13 @@ export const loadUserReviews = (reviews) =>{
 export const createReview = (review) =>{
     return {
         type:CREATE_REVIEW,
+        review
+    }
+}
+
+export const updateReview = (review)=>{
+    return {
+        type:UPDATE_REVIEW,
         review
     }
 }
@@ -57,7 +65,6 @@ export const fetchCreateReviews = (spotId,review) =>async (dispatch) =>{
     });
     if(!(res.ok)){
         const data = await res.json();
-        console.log(data)
         throw data;
     }
     const data = await res.json();
@@ -69,6 +76,33 @@ export const fetchCreateReviews = (spotId,review) =>async (dispatch) =>{
     dispatch(createReview(detailedReviewData));
 
     return data;
+}
+
+export const fetchUpdateReviews = (review) => async (dispatch) =>{
+    const res =await csrfFetch(`/api/reviews/${review.id}`,{
+        method:'PUT',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({
+            review:review.review,
+            stars:review.stars
+        })
+
+    });
+    if(!(res.ok)){
+        const data = await res.json();
+        throw data;
+    }
+    const data = await res.json();
+    const resReview = await csrfFetch(`/api/spots/${review.spotId}/reviews`);
+
+    const reviewData = await resReview.json();
+    const detailedReviewData = reviewData.Reviews.find(review=>review.id===data.id);
+
+    dispatch(updateReview(detailedReviewData));
+    return data;
+
 }
 
 export const fetchDeleteReview = (reviewId) =>async(dispatch)=>{
@@ -94,6 +128,11 @@ const reviewReducer = (state = initialState,action)=>{
             return {...state,user:[...action.reviews]};
         case CREATE_REVIEW:
             return {...state,spot:[...state.spot, action.review],user:[...state.user, action.review]};
+        case UPDATE_REVIEW:
+            return {...state,
+                spot:state.spot.map(review => review.id === action.review.id?action.review : review),
+                user:state.user.map(review => review.id === action.review.id?action.review : review)
+            }
         case REMOVE_REVIEW:
             return {
                 ...state,

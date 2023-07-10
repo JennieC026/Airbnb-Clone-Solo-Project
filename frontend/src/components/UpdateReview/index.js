@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { fetchCreateReviews } from "../../store/review";
+import { fetchUpdateReviews } from "../../store/review";
+import { fetchSpots } from "../../store/spots";
 
 
-import "./CreateReview.css";
+import "./UpdateReview.css";
 
 
-function CreateReviewModal({spotId}) {
+function UpdateReviewModal({originReview}) {
+    const spots = useSelector(state=>state.spots.allSpots);
+    const spot = spots.find(ele=>ele.id===originReview.spotId)
     const [errors, setErrors] = useState({});
-    const [review, setReview] = useState('');
-    const [stars, setStars] = useState(0);
+    const [review, setReview] = useState(originReview.review);
+    const [stars, setStars] = useState(originReview.stars);
     const { closeModal } = useModal();
     const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(fetchSpots())
+    },[dispatch]);
     
 
     useEffect(()=>{
@@ -26,16 +34,19 @@ function CreateReviewModal({spotId}) {
         setErrors(errors);
     },[review])
 
-   
+    if(spots.length===0){
+        return(<div><h2>Loading...</h2></div>)
+    }
+
 
   
 
 
-  const handleCreateClick = async (spotId) =>{
-    const reviewToSend={review,stars}
+  const handleUpdateClick = async () =>{
+    const reviewToSend={...originReview,stars:stars,review:review}
     
     try {
-      const newReview = await dispatch(fetchCreateReviews(spotId,reviewToSend));
+      const newReview = await dispatch(fetchUpdateReviews(reviewToSend));
       closeModal();
   } catch (error) {
   const  errorData = await error.json()
@@ -69,7 +80,7 @@ function CreateReviewModal({spotId}) {
 
   return (
     <div>
-        <h1>How was your stay?</h1>
+        <h1>How was your stay at{spot.name}?</h1>
         {errors.apiError && <div className="errors">{errors.apiError}</div>}
     <textarea type='text' placeholder="Leave your review here... 
 " value = {review} onChange={e=>setReview(e.target.value)}></textarea>
@@ -77,11 +88,11 @@ function CreateReviewModal({spotId}) {
 
    {starRating}
 
-<button onClick={()=>handleCreateClick(spotId)} disabled={!!Object.keys(errors).length}>Submit Your Review
+<button onClick={()=>handleUpdateClick()} disabled={!!Object.keys(errors).length}>Update Your Review
 </button>
        </div>
       
   );
 }
 
-export default CreateReviewModal;
+export default UpdateReviewModal;
