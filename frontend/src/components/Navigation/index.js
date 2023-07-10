@@ -3,19 +3,19 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 
-import { useDispatch } from "react-redux";
+
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
-  const dispatch = useDispatch();
+
  
 
 
 
   let  sessionLinks = (
       <li>
-        <NavLink to='/spots/new'>Create New Spot</NavLink>
+        <NavLink to='/spots/new' style={{ textDecoration: 'none', color: '#078ca3'}}>Create New Spot  </NavLink>
         <ProfileButton user={sessionUser} />
       </li>
     );

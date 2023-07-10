@@ -175,7 +175,7 @@ function SpotForm({spot,formType}){
             <div><input type='text' placeholder='Preview Image URL'value ={previewImage} onChange ={e =>setPreviewImage(e.target.value) }/></div>
 
             {images.map((image,index)=>(
-            <label key = {index}>
+            <label key = {index} className="image-url-input">
         <input type='text' placeholder="Image URL" value={image} onChange={e => handleImageChange(index,e.target.value)}/>
         </label>
     
@@ -191,11 +191,13 @@ function SpotForm({spot,formType}){
 
 
     return (
-        <>
+        <div className="spot-form">
         <h1>{formType==='Update Spot'?'Update a spot':'Create a new spot'}</h1>   
-         
-        <h2>Where's your place located?</h2>
+         <div className="where">
+         <h2>Where's your place located?</h2>
         <p>Guest will only get your exact address once they booked a reservation.</p>
+         </div>
+        
         <form onSubmit={handleSubmit}>
             <label>
                 Country
@@ -273,7 +275,7 @@ in search results.</p>
 
         </form>
 
-        </>
+        </div>
     )
 }
 

@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 import OpenModalButton from "../OpenModalButton";
 import DeleteReviewModal from '../DeleteReviewModal';
 import UpdateReviewModal from '../UpdateReview';
+import './OwnedReview.css'
 
 function OwnedReviews(){
     const dispatch = useDispatch();
@@ -25,22 +26,27 @@ function OwnedReviews(){
     }
 
     return(<div>
-        Manage Reviews
+        <h1>   Manage Reviews</h1>
         <ol className='get-user-reviews'>
             {reviews.map((review)=>(
                 <li key={review.id}>
-                    {review.Spot.name}
-                    {review.updatedAt}
-                    {review.review}
-                    <div><button>Update</button>
-                    <OpenModalButton
-                    className='cursor-button'
-                      buttonText="Delete"
-                      modalComponent={<DeleteReviewModal reviewId={review.id}/>}/>
+                    <div className='manage-reviews-list'>
+                    <h2>{review.Spot.name}</h2>
+                    <div> {new Date(review.updatedAt).toLocaleDateString('en-US',{year:'numeric',month:'long'})}</div>
+                     <div>{review.review}</div>
+                    
+                    </div>
+                    
+                    <div>
+                    
                       <OpenModalButton
                     className='cursor-button'
                       buttonText="Update"
                       modalComponent={<UpdateReviewModal originReview={review}/>}/>
+                      <OpenModalButton
+                    className='cursor-button'
+                      buttonText="Delete"
+                      modalComponent={<DeleteReviewModal reviewId={review.id}/>}/>
                     </div>
                 </li>
             ))}

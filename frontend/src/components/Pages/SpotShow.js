@@ -7,6 +7,7 @@ import OpenModalButton from "../OpenModalButton";
 import CreateReviewModal from '../CreateReviewModal';
 import DeleteReviewModal from '../DeleteReviewModal';
 import UpdateReviewModal from '../UpdateReview';
+import './SpotShow.css'
 
 function SpotShow(){
     const dispatch = useDispatch();
@@ -97,11 +98,15 @@ function SpotShow(){
          {spot.name}
         </h1>
         <h2>{spot.city},{spot.state},{spot.country}</h2>
-        <ol>
+        <ol className='spot-detail-images'>
             {spot.SpotImages && spot.SpotImages.length > 0 && (spot.SpotImages).map((ele)=>(
-                <li key={ele.id}>
+                <div className='image-container'>
+                    <li key={ele.id}>
                     <img src={ele.url} alt={spot.name}/>
                 </li>
+
+                </div>
+                
             ))}
         </ol>
         <div><p>${spot.price}</p><p>night</p><div>{reserveBar}<button onClick={handleReserveClick}>Reserve</button></div></div>
