@@ -33,7 +33,7 @@ function DeleteSpotModal({spotId}) {
    }
 
   return (
-    <div>
+    <div className="delete-s">
         <h1>Confirm Delete</h1>
         <p>Are you sure you want to remove this spot
 from the listings?</p>
