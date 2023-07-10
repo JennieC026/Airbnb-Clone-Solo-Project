@@ -124,8 +124,14 @@ router.put('/:reviewId',validateEditReview,async(req,res)=>{
                         }
                     ]
                 })
-                let notRoundedStarRating = totalStars/spot.Reviews.length;
-                console.log(notRoundedStarRating);
+                let notRoundedStarRating;
+                if(spot.Reviews.length===0){
+                    notRoundedStarRating = 0;
+                }else{
+                     notRoundedStarRating = totalStars/spot.Reviews.length;
+
+                }
+                
                 spot.avgStarRating = Number(notRoundedStarRating).toFixed(2);
                 await spot.save()
                 return res.json(reviewToUpdate)
@@ -168,8 +174,14 @@ router.delete('/:reviewId',async(req,res)=>{
                         }
                     ]
                 });
-                
-                let notRoundedStarRating = totalStars/updatedSpot.Reviews.length;
+                let notRoundedStarRating;
+                if(updatedSpot.Reviews.length===0){
+                     notRoundedStarRating = 0
+                }else{
+                    notRoundedStarRating = totalStars/updatedSpot.Reviews.length;
+
+                }
+                 
                 updatedSpot.avgStarRating = Number(notRoundedStarRating).toFixed(2);
                 updatedSpot.numReviews = updatedSpot.Reviews.length;
                 

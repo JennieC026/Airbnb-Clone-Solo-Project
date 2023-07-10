@@ -76,6 +76,10 @@ export const fetchCreateSpot = (spot,images,previewImage) => async(dispatch)=>{
         },
         body:JSON.stringify(spot)
     })
+    if(!resCreateSpot.ok){
+        const data = await resCreateSpot.json();
+        throw data;
+    }
     const spotData =await resCreateSpot.json();
     const spotId = spotData.id;
     const previewImg = await csrfFetch(`/api/spots/${spotId}/images`,{
@@ -121,6 +125,10 @@ export const fetchEditSpot = (spot) => async(dispatch)=>{
         },
         body:JSON.stringify(spot)
     });
+    if(!resEdited.ok){
+        const data = await resEdited.json();
+        throw data;
+    }
     const resDetailSpot = await csrfFetch(`/api/spots/${spot.id}`);
     
     const data = await resDetailSpot.json();

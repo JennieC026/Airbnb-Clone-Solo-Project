@@ -1,0 +1,23 @@
+.spot-detail-images{
+   display: flex;
+   justify-content: space-around;
+}
+.image-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%; /* for a 4:3 aspect ratio */
+    overflow: hidden;
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.spot-detail-images > div:first-child > li{
+    justify-self: start;
+}

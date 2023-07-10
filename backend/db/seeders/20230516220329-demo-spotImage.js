@@ -26,7 +26,7 @@ module.exports = {
      },
      {
       spotId:1,
-      url:'https://pixabay.com/photos/panorama-golden-gate-bridge-2154194/',
+      url:'https://assets.editorial.aetnd.com/uploads/2015/02/topic-golden-gate-bridge-gettyimages-177770941.jpg',
       preview:false
      },
      {
@@ -68,7 +68,7 @@ module.exports = {
       preview:false
      },{
       spotId:3,
-      url:'https://ap.rdcpix.com/a9595ca8b727103443042ca2c5af2bf3l-m3280569782od-w480_h360.jpg',
+      url:'https://assets.editorial.aetnd.com/uploads/2015/02/topic-golden-gate-bridge-gettyimages-177770941.jpg',
       preview:false
      },{
       spotId:3,
@@ -77,6 +77,28 @@ module.exports = {
      },{
       spotId:3,
       url:'https://ap.rdcpix.com/bb893aaf19274e8e23fa08086113ecf6l-m3421656976od-w480_h360.jpg',
+      preview:false
+     },
+     {
+      spotId:4,
+      url:'https://www.theagencyre.com/blog/wp-content/uploads/2015/01/799.jpg',
+      preview:true
+     },
+     {
+      spotId:4,
+      url:'https://www.wealthmanagement.com/sites/wealthmanagement.com/files/apartments-new-york-city_0.jpg',
+      preview:false
+     },{
+      spotId:4,
+      url:'https://www.zillowstatic.com/bedrock/app/uploads/sites/26/nyc-apartments-for-1800-cobble-hill-d08725.jpg',
+      preview:false
+     },{
+      spotId:4,
+      url:'https://www.zillowstatic.com/bedrock/app/uploads/sites/26/nyc-apartments-for-400k-jackson-heights-9faee5.jpeg',
+      preview:false
+     },{
+      spotId:4,
+      url:'https://www.zillowstatic.com/bedrock/app/uploads/sites/26/nyc-apartments-for-400k-kensington-2d8e8c.jpeg',
       preview:false
      },
     ])

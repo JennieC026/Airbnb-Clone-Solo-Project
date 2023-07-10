@@ -6,17 +6,17 @@ import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import './ProfileButton.css';
 
 
 function ProfileButton({ user }) {
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
+  const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
-  const loginDemoUser = () =>{
-    return dispatch(sessionActions.login({ credential:'Demo-lition', password:'password' }))
-    
-  }
+ 
 
   const openMenu = () => {
     if (showMenu) return;
@@ -40,6 +40,7 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    history.push('/')
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -47,8 +48,7 @@ function ProfileButton({ user }) {
   if(sessionUser){
     sessionLinks =(
     <ul className={ulClassName} ref={ulRef}>
-      <li>{user.username}</li>
-      <li>{user.firstName} {user.lastName}</li>
+      <li>Hello, {user.firstName}</li>
       <li>{user.email}</li>
       <hr/>
       <li><NavLink to='/spots/current'>Manage Spots</NavLink></li>
@@ -74,7 +74,7 @@ function ProfileButton({ user }) {
           modalComponent={<SignupFormModal />}
           
         />
-        <button onClick={loginDemoUser} className='cursor-button'>Demo User Login</button>
+        
       </li>
 
       </ul>

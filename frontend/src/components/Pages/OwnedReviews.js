@@ -6,37 +6,47 @@ import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 import OpenModalButton from "../OpenModalButton";
 import DeleteReviewModal from '../DeleteReviewModal';
 import UpdateReviewModal from '../UpdateReview';
+import './OwnedReview.css'
 
 function OwnedReviews(){
     const dispatch = useDispatch();
     const history = useHistory();
-    const reviews = useSelector(state=>state.reviews.user||[]);
+    const reviews = useSelector(state=>state.reviews.user||null);
 
     useEffect(()=>{
         dispatch(fetchUserReviews())
     },[dispatch]);
 
-    if(reviews.length===0){
+    if(reviews===null){
         return(<div><h2>Loading...</h2></div>)
     }
 
+    if(reviews.length===0){
+        return(<div><h2>No Reviews</h2></div>)
+    }
+
     return(<div>
-        Manage Reviews
+        <h1>   Manage Reviews</h1>
         <ol className='get-user-reviews'>
             {reviews.map((review)=>(
                 <li key={review.id}>
-                    {review.Spot.name}
-                    {review.updatedAt}
-                    {review.review}
-                    <div><button>Update</button>
-                    <OpenModalButton
-                    className='cursor-button'
-                      buttonText="Delete"
-                      modalComponent={<DeleteReviewModal reviewId={review.id}/>}/>
+                    <div className='manage-reviews-list'>
+                    <h2>{review.Spot.name}</h2>
+                    <div> {new Date(review.updatedAt).toLocaleDateString('en-US',{year:'numeric',month:'long'})}</div>
+                     <div>{review.review}</div>
+                    
+                    </div>
+                    
+                    <div>
+                    
                       <OpenModalButton
                     className='cursor-button'
                       buttonText="Update"
                       modalComponent={<UpdateReviewModal originReview={review}/>}/>
+                      <OpenModalButton
+                    className='cursor-button'
+                      buttonText="Delete"
+                      modalComponent={<DeleteReviewModal reviewId={review.id}/>}/>
                     </div>
                 </li>
             ))}

@@ -1,0 +1,9 @@
+.manage-reviews-list{
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    
+}
+.get-user-reviews{
+    list-style-type: none;
+}
