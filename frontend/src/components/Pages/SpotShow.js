@@ -60,11 +60,11 @@ function SpotShow(){
               modalComponent={<CreateReviewModal spotId={spot.id} formType={'Create Review'}/>}/>}
 </div>
         );
-        reserveBar=(<div><i className="fa-solid fa-star"></i>New</div>)
+        reserveBar=(<div className='reserve-bar'><i className="fa-solid fa-star"></i>New</div>)
 
     }else{
 
-        reviewBar = (<div><div><i className="fa-solid fa-star"></i>{spot.avgStarRating}</div><h2>·</h2><h2>{spot.numReviews}{spot.numReviews===1? 'Review' : 'Reviews'}</h2>
+        reviewBar = (<div><div className='star-rate'><div><i className="fa-solid fa-star"></i>{spot.avgStarRating}</div><h2>·</h2><h2>{spot.numReviews}{spot.numReviews===1? 'Review' : 'Reviews'}</h2></div>
          {!userHasReview &&sessionUser&&!userOwnsSpot&& <OpenModalButton
         className='cursor-button'
           buttonText="Post Your Review"
@@ -85,7 +85,7 @@ function SpotShow(){
                     )}</li>
             ))}
         </ol></div>)
-        reserveBar=(<div><i className="fa-solid fa-star"></i>{spot.avgStarRating} {spot.numReviews}{spot.numReviews===1? 'review' : 'reviews'}
+        reserveBar=(<div ><i className="fa-solid fa-star"></i>{spot.avgStarRating} {spot.numReviews}{spot.numReviews===1? 'review' : 'reviews'}
      
 
         </div>)
@@ -99,19 +99,23 @@ function SpotShow(){
         </h1>
         <h2>{spot.city},{spot.state},{spot.country}</h2>
         <ol className='spot-detail-images'>
+        <div className='image-container'>
             {spot.SpotImages && spot.SpotImages.length > 0 && (spot.SpotImages).map((ele)=>(
-                <div className='image-container'>
+                
                     <li key={ele.id}>
                     <img src={ele.url} alt={spot.name}/>
                 </li>
 
-                </div>
+                
                 
             ))}
+            </div>
         </ol>
-        <div><p>${spot.price}</p><p>night</p><div>{reserveBar}<button onClick={handleReserveClick}>Reserve</button></div></div>
-        <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
-        <p>{spot.description}</p>
+        <div className='des-bar-all'><div className='des-bar'><h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
+        <p>{spot.description}</p></div>
+        <div className='reserve-bar'><div className='r-child'><p>${spot.price}per night</p>{reserveBar}</div><div className='r-button' ><button className='reserve' onClick={handleReserveClick}>Reserve</button></div></div></div>
+        
+        
         {reviewBar}
         </>
         

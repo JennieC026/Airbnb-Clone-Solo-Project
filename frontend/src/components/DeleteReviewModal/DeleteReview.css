@@ -1,0 +1,25 @@
+.delete-m{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 300px;
+
+
+}
+
+#delete-button-yes {
+    background-color: #ce5b5b;
+    color: #fff;
+    margin-bottom: 10px;
+    width: 250px;
+    height: 30px;
+  }
+
+  #delete-button-no {
+    background-color: #5a5a5a;
+    color: #fff;
+    width: 250px;
+    height: 30px;
+  }

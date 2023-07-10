@@ -34,7 +34,7 @@ function DeleteReviewModal({reviewId}) {
    }
 
   return (
-    <div>
+    <div className="delete-m">
         <h1>Confirm Delete</h1>
         <p>Are you sure you want to delete this review?
 </p>
