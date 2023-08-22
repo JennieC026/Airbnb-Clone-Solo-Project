@@ -81,6 +81,7 @@ const validateQuery = [
 
         ]
     });
+
     return res.json({Reviews:reviews})
 
 
@@ -262,24 +263,6 @@ const validateQuery = [
         });
        
        
-
-        const totalStars =await Review.sum('stars',{
-            where:{
-                spotId:req.params.spotId
-            }
-        })
-        const updatedSpot = await Spot.findByPk(parseInt(req.params.spotId),{
-            include:[
-                {
-                    model:Review,
-                    as:'Reviews'
-                }
-            ]
-        });
-        
-        let notRoundedStarRating = totalStars/updatedSpot.Reviews.length;
-        updatedSpot.avgStarRating = Number(notRoundedStarRating).toFixed(1);
-        updatedSpot.numReviews = updatedSpot.Reviews.length;
         
         await updatedSpot.save();
         return res.json(newReview);
@@ -322,9 +305,10 @@ const validateQuery = [
         let result = ownedSpots.map(spot =>{
             let spotJson = spot.toJSON();
             spotJson.previewImage = spotJson.SpotImages && spotJson.SpotImages.length > 0 ? spotJson.SpotImages[0].url : null;
-            spotJson.avgRating = spotJson.Reviews.length > 0 ? 
+            spotJson.avgStarRating = spotJson.Reviews.length > 0 ? 
             (spotJson.Reviews.reduce((total, review) => total + review.stars, 0) / spotJson.Reviews.length).toFixed(2) : 
             null;
+            spotJson.numReviews = spotJson.Reviews.length? spotJson.Reviews.length:0;
             delete spotJson.Reviews;
             delete spotJson.SpotImages;
             return spotJson;
@@ -342,7 +326,7 @@ const validateQuery = [
 //get spot detail by id
 router.get('/:spotId',async(req,res)=>{
     const spot = await Spot.findByPk(parseInt(req.params.spotId),{
-        attributes:['id','ownerId','address','city','state','country','lat','lng','name','description','price','createdAt','updatedAt','numReviews','avgStarRating'],
+        attributes:['id','ownerId','address','city','state','country','lat','lng','name','description','price','createdAt','updatedAt'],
         include:[{
             model:SpotImage,
             as:'SpotImages',
@@ -352,7 +336,12 @@ router.get('/:spotId',async(req,res)=>{
         model:User,
         as:'Owner',
         attributes:['id','firstName','lastName']
-    }]
+    },
+    {
+        model:Review,
+        required:false
+    }
+]
         
     });
     if(!spot){
@@ -360,6 +349,15 @@ router.get('/:spotId',async(req,res)=>{
             message:"Spot couldn't be found"
         })
     }
+    const spotObj = spot.toJSON();
+    spotObj.previewImage = spotObj.SpotImages && spotObj.SpotImages.length > 0 ? spotObj.SpotImages[0].url : null;
+    spotObj.avgStarRating = spotObj.Reviews.length > 0 ? 
+    (spotObj.Reviews.reduce((total, review) => total + review.stars, 0) / spotObj.Reviews.length).toFixed(2) : 
+    null;
+    spotObj.numReviews = spotObj.Reviews.length? spotObj.Reviews.length:0;
+    delete spotObj.Reviews;
+            delete spotObj.SpotImages;
+
     return res.json(spot);
 })
 
@@ -425,9 +423,10 @@ router.get('/',validateQuery,async(req,res)=>{
     let result = spots.map(spot =>{
         let spotJson = spot.toJSON();
         spotJson.previewImage = spotJson.SpotImages && spotJson.SpotImages.length > 0 ? spotJson.SpotImages[0].url : null;
-        spotJson.avgRating = spotJson.Reviews.length > 0 ? 
+        spotJson.avgStarRating = spotJson.Reviews.length > 0 ? 
         (spotJson.Reviews.reduce((total, review) => total + review.stars, 0) / spotJson.Reviews.length).toFixed(2) : 
     null;
+        spotJson.numReviews = spotJson.Reviews.length? spotJson.Reviews.length:0;
         delete spotJson.Reviews;
         delete spotJson.SpotImages;
         return spotJson;

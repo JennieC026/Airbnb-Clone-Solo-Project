@@ -1,4 +1,7 @@
 'use strict';
+
+const spot = require('../models/spot');
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -101,6 +104,34 @@ module.exports = {
       url:'https://www.zillowstatic.com/bedrock/app/uploads/sites/26/nyc-apartments-for-400k-kensington-2d8e8c.jpeg',
       preview:false
      },
+     {
+      spotId:5,
+      url:'https://cdn.discordapp.com/attachments/811082976501825539/1143378396181692497/banner.jpg',
+      preview:true
+     },
+      {
+      spotId:5,
+      url:'https://a0.muscache.com/im/pictures/miso/Hosting-48089233/original/32e6234f-2f32-4b7c-8137-ee81e9f6c7d1.jpeg?im_w=1200',
+      preview:false
+      },
+      {
+      spotId:5,
+      url:'https://a0.muscache.com/im/pictures/9c6f8dd9-9758-4ef3-80b0-16cdbbda5118.jpg?im_w=720',
+      preview:false
+      },
+      {
+      spotId:5,
+      url:'https://a0.muscache.com/im/pictures/miso/Hosting-48089233/original/5d43315c-91ac-41ad-a7c3-ca2672834743.jpeg?im_w=720',
+      preview:false
+      },
+      {
+      spotId:5,
+      url:'https://a0.muscache.com/im/pictures/miso/Hosting-48089233/original/ab307e76-ad60-4ee5-8a16-176c8aeb14be.jpeg?im_w=720',
+      preview:false
+      }
+
+
+
     ])
   },
 
@@ -108,7 +139,7 @@ module.exports = {
     options.tableName = 'SpotImages';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options,{
-      spotId:{[Op.in]:[1,2,3
+      spotId:{[Op.in]:[1,2,3,4,5
 
     ]},
       

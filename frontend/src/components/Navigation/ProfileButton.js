@@ -84,8 +84,9 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+      <button onClick={openMenu} className="user-profile-button">
+      <i class="fa-solid fa-bars user-profile-button-bar-icon"></i>
+        <i className="fas fa-user-circle user-profile-button-user-icon" />
       </button>
       {sessionLinks}
     </>

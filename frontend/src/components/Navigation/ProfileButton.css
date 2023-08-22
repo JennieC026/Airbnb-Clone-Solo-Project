@@ -7,3 +7,33 @@
     list-style-type: none;
 }
 
+.user-profile-button{
+    background-color: white;
+    border: 1px solid #b3b3b3;
+    border-radius: 30px;
+    padding: 10px 25px 10px 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.user-profile-button:hover{
+    box-shadow: 2px 2px 2px 1px #b3b3b3;
+}
+
+.user-profile-button-user-icon{
+    position: relative;
+    left: 10px;
+    font-size: 30px;
+    color: #6e6e6e;
+}
+
+.user-profile-button-bar-icon{
+    position: relative;
+    right: 10px;
+    font-size: 18px;
+    color: #6e6e6e;
+
+}

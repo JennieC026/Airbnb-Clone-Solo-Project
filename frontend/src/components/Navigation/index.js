@@ -14,8 +14,8 @@ function Navigation({ isLoaded }) {
 
 
   let  sessionLinks = (
-      <li>
-        {sessionUser&&<NavLink to='/spots/new' style={{ textDecoration: 'none', color: '#078ca3'}}>Create New Spot  </NavLink>}
+      <li className="nav-create-spot-user-button-container">
+        {sessionUser&&<NavLink to='/spots/new' className='nav-link-to-create-spot'>Create New Spot  </NavLink>}
         <ProfileButton user={sessionUser} />
       </li>
     );

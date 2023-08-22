@@ -18,7 +18,7 @@ if(spots.length===0){
 }
 
     return(
-        <div>
+        <div className='all-spots-component'>
             <ol className='getAllSpots'>
                 {spots.map((spot)=>(
                     <li key={spot.id} className='all-spot-list'>
@@ -29,10 +29,10 @@ if(spots.length===0){
                                 </div>
                                 <div className='info-block'>
                                     <div className='first-row'>
-                                    <p className='all-spot-text'>{`${spot.city},${spot.state}`}</p><div id='avg-review-bar'><i className="fa-solid fa-star"></i><p className='all-spot-text'>{spot.avgRating ? spot.avgRating : 'New' }</p></div>
+                                    <p className='all-spot-text'>{`${spot.city},${spot.state}`}</p><div id='avg-review-bar'><i className="fa-solid fa-star"></i><p className='all-spot-text'>{spot.avgStarRating ? spot.avgStarRating : 'New' }</p></div>
                                     </div>
                                     <div className='second-row'>
-                                    <p className='all-spot-text'>{`$${spot.price}`} night</p>
+                                    <p className='all-spot-text'><div className='spot-index-price'>{`$${spot.price}`}</div> night</p>
                                     </div>
                                     
                                     </div>
