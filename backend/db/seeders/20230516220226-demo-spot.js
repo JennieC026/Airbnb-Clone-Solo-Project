@@ -79,7 +79,7 @@ module.exports = {
         lng:-104.990252,
         name:"Mountain Retreat",
         description:"Quiet mountain retreat perfect for nature lovers",
-        price:200,
+        price:200,//6
       },
       {
         ownerId:1,
@@ -91,7 +91,7 @@ module.exports = {
         lng:-80.191790,
         name:"Sunny Beach House",
         description:"Beachfront house with stunning ocean views",
-        price:300,
+        price:300,//7
       },
       {
         ownerId:2,
