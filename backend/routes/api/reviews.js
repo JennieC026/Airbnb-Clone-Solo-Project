@@ -111,29 +111,7 @@ router.put('/:reviewId',validateEditReview,async(req,res)=>{
                 if(review)reviewToUpdate.set({review});
                 if(stars)reviewToUpdate.set({stars});
                 await reviewToUpdate.save();
-                const totalStars =await Review.sum('stars',{
-                    where:{
-                        spotId:reviewToUpdate.spotId
-                    }
-                });
-                const spot = await Spot.findByPk(reviewToUpdate.spotId,{
-                    include:[
-                        {
-                            model:Review,
-                            as:'Reviews'
-                        }
-                    ]
-                })
-                let notRoundedStarRating;
-                if(spot.Reviews.length===0){
-                    notRoundedStarRating = 0;
-                }else{
-                     notRoundedStarRating = totalStars/spot.Reviews.length;
-
-                }
                 
-                spot.avgStarRating = Number(notRoundedStarRating).toFixed(2);
-                await spot.save()
                 return res.json(reviewToUpdate)
 
             }else{
